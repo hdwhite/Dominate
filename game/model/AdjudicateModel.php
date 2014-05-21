@@ -27,9 +27,11 @@ class AdjudicateModel extends RedirectModel
 			return array($this->game, "gm");
 		if($_FILES['text']['error'] > 0 && $_FILES['image2']['error'] != 4)
 			return array($this->game, "gm");
-		$imgpath = "../diplomacy/" . str_replace(" ", "_", $this->gameinfo['name']) .
+		$imgpath = $_SERVER['DOCUMENT_ROOT'] . "/diplomacy/" .
+			str_replace(" ", "_", $this->gameinfo['name']) .
 			"/images/" . $this->curturn->getyear();
-		$textpath = "../diplomacy/" . str_replace(" ", "_", $this->gameinfo['name']) .
+		$textpath = $_SERVER['DOCUMENT_ROOT'] . "/diplomacy/" .
+			str_replace(" ", "_", $this->gameinfo['name']) .
 			"/text/" . $this->curturn->getyear();
 		switch($this->curturn->display("sp"))
 		{
@@ -212,7 +214,7 @@ class AdjudicateModel extends RedirectModel
 				   "at http://hdwhite.org/dominate/account.php";
 		$mtext = $mstart . $mfooter;
 		mail("", $mtitle, $mtext, $mheader);
-		return($this->game, "gm");
+		return(array($this->game, "gm"));
 	}
 }
 ?>

@@ -10,6 +10,7 @@ $stmt->bind_param("is", $id, $user);
 $stmt->execute();
 $stmt->bind_result($isgm);
 $stmt->fetch();
+$stmt->close();
 if($isgm)
 {
 	$mysqli->query("DELETE FROM $_gamedb WHERE id=$id");

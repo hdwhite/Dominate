@@ -10,7 +10,7 @@
 				$gamename = "<a href='game/" . $curgame['gid'] . "'>" .
 					$curgame['gname'] . "</a>";
 				$power = $curgame['pname'];
-				$turn = new Turn($curgame['startyear'], $curgame['numturns'])->getnext();
+				$turn = (new Turn($curgame['startyear'], $curgame['numturns']))->getnext();
 				$year = $turn->getyear();
 				$season = $turn->display("S P");
 				$infolink = "<a href='game/" . $curgame['gid'] . "/info'>Info</a>";

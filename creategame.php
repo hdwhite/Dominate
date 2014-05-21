@@ -28,7 +28,7 @@ if(isset($_POST['action']))
 	{
 		$gamestmt = $mysqli->prepare("INSERT INTO $_gamedb(name, for_stats, press, " .
 			"move_deadlines, retreat_deadlines, gm, info) " .
-			"VALUES('?, ?, ?, ?, ?, ?, ?')");
+			"VALUES(?, ?, ?, ?, ?, ?, ?)");
 		$gamestmt->bind_param('ssissss',
 			$name, $stats, $press, $mdeadline, $rdeadline, $user, $info);
 		$gamestmt->execute();

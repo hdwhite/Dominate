@@ -1,4 +1,4 @@
-<?php $numyears = ($gameinfo['numturns'] + 1)/ 5; ?>
+<?php $numyears = floor(($gameinfo['numturns'] + 6)/ 5); ?>
 <div class=entry>
 	<h4>Statistics for <?=$gameinfo['name'] ?></h4>
 	<?php for($q = 0; $q < $numyears; $q += 10) { ?>
@@ -30,7 +30,7 @@
 						"$game'>$curyear</a></th>");
 				else
 					echo("<th><a href='http://hdwhite.org/dominate/game/" .
-						"$game/results/" . ($i * 5) . "'>$curyear</a></th>");
+						"$game/results/" . (($i - 1) * 5) . "'>$curyear</a></th>");
 			}
 		echo("</tr></thead>");
 		foreach ($stattable as $curpower)

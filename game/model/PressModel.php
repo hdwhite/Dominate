@@ -47,10 +47,10 @@ class PressModel extends PageModel
 		else
 		{
 			$powerid = $this->mysqli->query("SELECT id FROM $this->powerdb " .
-				"WHERE game=$this->game AND name=$this->powername")
+				"WHERE game=$this->game AND name='$this->powername'")
 				->fetch_assoc()['id'];
 			$messagelist = $this->mysqli->query("$mquery $grouping " .
-				"HAVING sender=$_powerid OR rlist REGEXP '(^|,)$powerid(,|$)' $ordering");
+				"HAVING sender=$powerid OR rlist REGEXP '(^|,)$powerid(,|$)' $ordering");
 		}
 		while($curmsg = $messagelist->fetch_assoc())
 		{

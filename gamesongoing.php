@@ -8,7 +8,7 @@
 			while($curgame = $gamelist->fetch_assoc())
 			{
 				$gamename = "<a href='game/" . $curgame['id'] . "'>" .
-					$curgame['gname'] . "</a>";
+					$curgame['name'] . "</a>";
 				switch ($curgame['press'])
 				{
 					case 0:
@@ -24,7 +24,7 @@
 						$press = "All";
 						break;
 				}
-				$turn = new Turn($curgame['startyear'], $curgame['numturns'])->getnext();
+				$turn = (new Turn($curgame['startyear'], $curgame['numturns']))->getnext();
 				$year = $turn->getyear();
 				$season = $turn->display("S P");
 				$deadline = date("n/j G:i", strtotime($curgame['next_deadline']));

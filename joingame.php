@@ -27,7 +27,7 @@ if($game = $mysqli->query(
 	$numempty = $powerlist->num_rows;
 	$power = $powerlist->fetch_assoc()['id'];
 	$mysqli->query(
-		"UPDATE $_powerdb SET player=" . $_SESSION['id'] . "' WHERE id=$power");
+		"UPDATE $_powerdb SET player=" . $_SESSION['id'] . " WHERE id=$power");
 	if($numempty == 1)
 		$mysqli->query("UPDATE $_gamedb SET status=1 WHERE id=$id");
 }

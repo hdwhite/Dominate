@@ -54,6 +54,9 @@ class GameStartModel extends RedirectModel
 		$scstmt = $this->mysqli->prepare("INSERT INTO $this->scdb" .
 			"(name, game, year, owner) VALUES(?, ?, ?, ?)");
 		$scstmt->bind_param("siii", $cursc, $this->game, $year, $ownernum);
+		$image = imagecreatefrompng("http://hdwhite.org/diplomacy/" .
+			str_replace(" ", "_", $this->gameinfo['name']) . "/images/" .
+			$this->gameinfo['startyear'] . "/W1.png");
 		for($i = 0; $i < count($scs); $i++)
 		{
 			$cursc = $scs[$i];
@@ -66,7 +69,7 @@ class GameStartModel extends RedirectModel
 			"game, power, player, year, sc) VALUES(?, ?, ?, ?, ?)");
 		$yearstmt->bind_param("iisii", $this->game, $powerid,
 			$powplayer, $this->gameinfo['startyear'], $sccount);
-		foreach($this->mysqli->query("SELECT name, player, user, power.id AS pid " .
+		foreach($this->mysqli->query("SELECT name, player, user, $this->powerdb.id AS pid " .
 			"FROM $this->powerdb, $this->userdb " .
 			"WHERE $this->powerdb.player=$this->userdb.id AND game=$this->game " .
 			"ORDER BY name") as $powinfo)

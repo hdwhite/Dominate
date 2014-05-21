@@ -7,7 +7,7 @@
 			while($curgame = $gamelist->fetch_assoc())
 			{
 				$gamename = "<a href='game/" . $curgame['id'] . "'>" .
-					$curgame['gname'] . "</a>";
+					$curgame['name'] . "</a>";
 				switch ($curgame['press'])
 				{
 					case 0:
@@ -27,12 +27,12 @@
 					explode(':', $curgame['retreat_deadlines'])[0] . " h";
 				$numslots = $mysqli->query("SELECT COUNT(player), COUNT(*) " .
 					"FROM $_powerdb WHERE game=" . $curgame['id'])->fetch_row();
-				$slots = explode("/", $numslots);
+				$slots = implode("/", $numslots);
 				$infolink = "<a href='game/" . $curgame['id'] . "/info'>Info</a>";
 				if($curgame['gm'] == $_SESSION['user'])
 					$joinlink = "<a href='delgame.php?game=" . $curgame['id'] . "'>Delete</a>";
-				elseif($mysqli->query("COUNT(*) FROM $_powerdb " .
-					"WHERE game=" . $curgame['id'] . " AND player='" . $_SESSION['id'])
+				elseif($mysqli->query("SELECT COUNT(*) FROM $_powerdb " .
+					"WHERE game=" . $curgame['id'] . " AND player=" . $_SESSION['id'])
 					->fetch_row()[0] > 0)
 					$joinlink = "<a href='leavegame.php?game=" . $curgame['id'] . "'>Leave</a>";
 				else

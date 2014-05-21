@@ -52,7 +52,7 @@ switch($gameinfo['status'])
 		echo("This game is paused until started by the GM.");
 		break;
 	case 2:
-		echo("It is currently the " . $curturn->getnext()->display('S y P') . ".<br>");
+		echo("It is currently the " . $curturn->getnext()->display('S y P') . " phase.<br>");
 		if (strtotime($gameinfo['next_deadline']) - time() > 0)
 			echo("Orders are due " .
 				 date("g:i A, F j, Y", strtotime($gameinfo['next_deadline'])) . ".");

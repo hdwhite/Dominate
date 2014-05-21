@@ -1,7 +1,7 @@
 <?php
 require_once("model/RedirectModel.php");
 
-class OrderSubmitModel extends RedirectModel
+class DeadlineModel extends RedirectModel
 {
 	public function __construct()
 	{
@@ -15,14 +15,14 @@ class OrderSubmitModel extends RedirectModel
 	{
 		if($this->powername != "GM")
 			return array($this->game);
-		$stmt = $this->mysqli->prepare("UPDATE $this->gamedb SET next_deadline=?" .
+		$stmt = $this->mysqli->prepare("UPDATE $this->gamedb SET next_deadline=? " .
 			"WHERE id=?");
-		$stmt->bind_params("si", $newdead, $this->game);
+		$stmt->bind_param("si", $newdead, $this->game);
 		if(isset($_POST['setdead']))
 		{
 			$newdead = trim($_POST['newdead']);
 			if(!preg_match("/^20[1-9][0-9]-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01]) " .
-				"([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/", $newdate))
+				"([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/", $newdead))
 				return array($this->game, "gm");
 		}
 		elseif(isset($_POST['extenddead']))

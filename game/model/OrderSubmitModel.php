@@ -15,9 +15,9 @@ class OrderSubmitModel extends RedirectModel
 	{
 		if($this->powername == "Observer" || $this->powername == "GM")
 			return array($this->game, "orders");
-		$stmt = $this->mysqli->prepare("UPDATE $this->powerdb SET orders=?" .
+		$stmt = $this->mysqli->prepare("UPDATE $this->powerdb SET orders=? " .
 			"WHERE game=? AND name=?");
-		$stmt->bind_params("sis", $_POST['orders'], $this->game, $this->powername);
+		$stmt->bind_param("sis", $_POST['orders'], $this->game, $this->powername);
 		$stmt->execute();
 		$stmt->close();
 		return array($this->game, "orders");

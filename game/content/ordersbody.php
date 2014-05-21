@@ -1,6 +1,6 @@
 <div class="entry">
 	<h4>Submit orders</h4>
-	<form action="<?=$game ?>/ordersubmit" method="post">
+	<form action="ordersubmit" method="post">
 		<textarea name="orders" id="orders" cols="25" rows="10"
 			<?php
 			if($powername == "Observer" || $powername == "GM" ||

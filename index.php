@@ -97,7 +97,7 @@ switch($_GET['message'])
 					"WHERE status=3");
 				if($gamelist->num_rows > 0)
 					include("gamesreplacing.php");
-				$gamelist = $mysqli->query("SELECT id, name, move_deadlines, " .
+				$gamelist = $mysqli->query("SELECT id, name, gm, move_deadlines, " .
 					"retreat_deadlines, press FROM $_gamedb WHERE status=0");
 				if($gamelist->num_rows > 0)
 					include("gamesnew.php");

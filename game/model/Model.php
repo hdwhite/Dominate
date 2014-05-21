@@ -57,7 +57,7 @@ abstract class Model
 				if($this->gameinfo['status'] == 0)
 					$this->powername = "TBD";
 				else
-					$this->powername = $curpwoer['name'];
+					$this->powername = $curpower['name'];
 				$this->orders = $curpower['orders'];
 			}
 			elseif($this->username == $this->gameinfo['gm'])

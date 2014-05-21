@@ -8,7 +8,7 @@
 			while($curgame = $gamelist->fetch_assoc())
 			{
 				$gamename = "<a href='game/" . $curgame['id'] . "'>" .
-					$curgame['gname'] . "</a>";
+					$curgame['game'] . "</a>";
 				switch ($curgame['press'])
 				{
 					case 0:
