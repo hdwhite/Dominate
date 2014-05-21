@@ -1,0 +1,172 @@
+/* CSS (C) William Donnell.  Please don't reuse without permission, unless of course you're Harry White, in which case do whatever you want with it.  Feel absoloutely free to learn from it through */
+
+* {
+margin:0;
+padding:0;
+}
+
+body
+{
+	background:#E6E6E6 url('../harryBG.jpg') repeat-x top center;
+	color: black;
+	text-align: center; font-style:normal; font-variant:normal; font-weight:normal; font-family:Verdana, Tahoma, Arial, sans-serif
+}
+
+img{
+padding: 0px;
+margin: 0px;
+border: 0px;
+}
+
+li
+{
+	margin-left: 20px;
+}
+
+input, button
+{
+	font-size: 16px;
+	padding:1px 3px;
+}
+
+#container
+{
+	width: 1024px;
+	margin:0 auto;
+	text-align: left;
+}
+
+#content
+{
+	padding-top:0;
+}
+	
+#header
+{
+	background:url('../harry_header.jpg') repeat-x top center;
+	color: white;
+	padding: 10px;
+	text-align: center;
+	height:115px;
+	padding-top: 25px; /*this + height should add up to the bg image for the header */
+}
+
+#header h2
+{
+	font-size: 225%;
+	margin:  0 0 15px 0;
+}
+
+
+#menu
+{
+	
+}
+
+#menu a
+{
+	font-size:115%; 
+	display: inline;
+	text-decoration: none;
+	color:#CCD9FF;
+	padding: 1px;
+	margin: 0 5px 0 5px;
+}
+
+.currentLink
+{
+	border: 1px solid white;
+	margin: 0 4px 0 4px;
+}
+
+.newLink
+{
+	border: 1px solid red;
+	margin: 0 4px 0 4px;
+}
+
+#menu a:hover
+{
+	border: 1px solid #668CFF;
+	margin: 0 4px 0 4px;
+}
+
+#menu .currentLink:hover
+{
+		margin: 0 5px 0 5px;
+}
+
+#menu .newLink:hover
+{
+	margin: 0 5px 0 5px;
+}
+
+.entry
+{
+	background: #F2F2F2;
+	padding: 10px;
+	border: 1px solid #00248F;
+	width: 1014px;
+	margin-top: 10px;
+}
+
+.entry h4
+{
+	position: block;
+	font-weight: bold;
+}
+
+.subentry
+{
+	background: #F2F2F2;
+	padding: 10px;
+	border: 1px solid #00248F;
+	width: 994px;
+	margin-top: 10px;
+}
+
+.subentry h4
+{
+	position: block;
+	font-weight: bold;
+}
+
+.center
+{
+        text-align:center;
+}
+
+.center table
+{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.center h4
+{
+    text-align: left;
+}
+
+td, th
+{
+	padding:1px 2px;
+}
+
+tr.unread
+{
+	font-weight:bold;
+}
+
+a.toggle
+{
+	color: black;
+	text-decoration: none;
+}
+
+#footer
+{
+	margin-top:10px;
+	text-align:center;
+	color:black;
+	font-size: 55%;
+}
