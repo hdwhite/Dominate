@@ -10,13 +10,18 @@
 				$gamename = "<a href='game/" . $curgame['gid'] . "'>" .
 					$curgame['gname'] . "</a>";
 				$power = $curgame['pname'];
+
+				//We need to turn the turn number into the game's year and season
 				$turn = (new Turn($curgame['startyear'], $curgame['numturns']))->getnext();
 				$year = $turn->getyear();
 				$season = $turn->display("S P");
+
 				$infolink = "<a href='game/" . $curgame['gid'] . "/info'>Info</a>";
 				$deadline = date("n/j G:i", strtotime($curgame['next_deadline']));
 				$temp = max(0, strtotime($curgame['next_deadline']) - time());
 				$ttd = sprintf("%02d:%02d", floor($temp/3600), floor($temp/60)%60);
+
+				//Unread messages will need to be re-implemented
 				$unread = 0;
 				if($curgame['orders'] == '' || $curgame['orders'] == NULL)
 					$orders = "None";

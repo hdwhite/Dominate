@@ -1,4 +1,7 @@
 <?php
+// Account settings
+// Currently used for email notifications at the moment
+
 session_start();
 include("dbnames.inc");
 include("$_dbconfig");
@@ -7,6 +10,8 @@ if(!isset($_SESSION['loggedin']))
 	header('Location: ../login.php');
 	exit;
 }
+
+//If they submitted a form, update the user settings
 if(isset($_POST['action']))
 {
 	$mysqli->query("UPDATE $_userdb " .
@@ -15,6 +20,7 @@ if(isset($_POST['action']))
 				   "WHERE id=" . $_SESSION['id']);
 	$message = "Settings updated.";
 }
+//Get user email settings
 $userinfo = $mysqli->query("SELECT press, adjudicate FROM $_userdb " .
 	" WHERE id=" . $_SESSION['id'])->fetch_assoc();
 ?>

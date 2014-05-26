@@ -7,6 +7,8 @@ if(!isset($_SESSION['loggedin']))
 }
 include("dbnames.inc");
 include($_dbconfig);
+
+//Logic for game creation
 if(isset($_POST['action']))
 {
 	$name = trim($_POST['name']);
@@ -17,28 +19,39 @@ if(isset($_POST['action']))
 	$stats = isset($_POST['stats']) ? 'y' : 'n';
 	$user = $_SESSION['user'];
 	$info = nl2br(htmlentities($_POST['info']));
+
+	//Make sure that a game of the same name doesn't already exist
 	$dupstmt = $mysqli->prepare("SELECT COUNT(*) FROM $_gamedb WHERE name=?");
 	$dupstmt->bind_param('s', $name);
 	$dupstmt->execute();
 	$dupstmt->bind_result($samename);
 	$dupstmt->fetch();
 	$dupstmt->close();
-	if($samename == 0 && preg_match("/^[A-Za-z0-9_ ]+$/", $name) &&
+	//"template" and "dipstats" are reserved names, and game names can have a
+	//limited range of accepted characters
+	if($samename == 0 && preg_match("/^[A-Za-z0-9_- ]+$/", $name) &&
 		$lowername != "template" && $lowername != "dipstats")
 	{
+		//Insert game info into the game table
 		$gamestmt = $mysqli->prepare("INSERT INTO $_gamedb(name, for_stats, press, " .
 			"move_deadlines, retreat_deadlines, gm, info) " .
 			"VALUES(?, ?, ?, ?, ?, ?, ?)");
 		$gamestmt->bind_param('ssissss',
 			$name, $stats, $press, $mdeadline, $rdeadline, $user, $info);
 		$gamestmt->execute();
+		$gamestmt->close();
 		$gameid = $mysqli->insert_id;
+		//Now insert the power information
 		$powerstmt = $mysqli->prepare("INSERT INTO $_powerdb(name, game) VALUES(?, ?)");
 		$powerstmt->bind_param('si', $power, $gameid);
 		$powerlist = array("Austria", "England", "France", "Germany",
 						   "Italy", "Russia", "Turkey");
 		foreach($powerlist as $power)
 			$powerstmt->execute();
+		$powerstmt->close();
+		//Create the directories and initial game files
+		//Permissions might not need to be so generous now that safe mode is
+		//no longer in place
 		mkdir("../diplomacy/$name/images/1901", 0775, true);
 		mkdir("../diplomacy/$name/text/1901", 0775, true);
 		copy("../diplomacy/template/images/1901/W1.png", "../diplomacy/$name/images/1901/W1.png");

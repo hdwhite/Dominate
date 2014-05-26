@@ -85,6 +85,10 @@ switch($_GET['message'])
 					<p><b>Important note:</b> This site is still very much in beta. There are still some features lacking, and bugs still probably exist. If you have any issues with this site, please let me know as soon as possible.</p>
 				</div>
 				<?php
+				//Displays tables of games the user is playing, games with
+				//replacement players available, new games that need players,
+				//games going on, and completed games. They're only displayed if
+				//there are a nonzero number of games in each category
 				$gamelist = $mysqli->query("SELECT $_gamedb.id AS gid, " .
 					"$_gamedb.name AS gname, next_deadline, startyear, numturns, " .
 					"$_powerdb.name AS pname, orders " .

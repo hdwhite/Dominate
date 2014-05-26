@@ -31,6 +31,8 @@
 				<thead><tr><th>Game</th><th>Press</th><th>Info</th></thead>
 				<tbody>
 				<?php
+					//Since there are so few columns, we can make three tables
+					//side by side to save on vertical space
 					for($i = 0; $i < $gamelist->num_rows; $i += 3)
 						echo("<tr><td>" . $gamename[$i] . "</td>" .
 							"<td>" . $press[$i] . "</td>" .

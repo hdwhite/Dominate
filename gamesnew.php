@@ -23,12 +23,18 @@
 						$press = "All";
 						break;
 				}
+				//Deadlines are of the form XX:00:00, which are converted to XX h
 				$deadlines = explode(':', $curgame['move_deadlines'])[0] . " h/" .
 					explode(':', $curgame['retreat_deadlines'])[0] . " h";
+
+				//Gets the number of players joined and total slots of the game
 				$numslots = $mysqli->query("SELECT COUNT(player), COUNT(*) " .
 					"FROM $_powerdb WHERE game=" . $curgame['id'])->fetch_row();
 				$slots = implode("/", $numslots);
 				$infolink = "<a href='game/" . $curgame['id'] . "/info'>Info</a>";
+
+				//The GM can delete the game, someone already playing can leave
+				//the game, and everyone else can join the game
 				if($curgame['gm'] == $_SESSION['user'])
 					$joinlink = "<a href='delgame.php?game=" . $curgame['id'] . "'>Delete</a>";
 				elseif($mysqli->query("SELECT COUNT(*) FROM $_powerdb " .

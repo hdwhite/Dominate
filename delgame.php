@@ -4,6 +4,7 @@ require_once("dbnames.inc");
 require_once($_dbconfig);
 $id = $_GET['game'];
 $user = $_SESSION['user'];
+//You can only delete a game if you are the GM and the game hasn't started yet
 $stmt = $mysqli->prepare("SELECT COUNT(*) FROM $_gamedb " .
 	"WHERE id=? AND status=0 AND gm=?");
 $stmt->bind_param("is", $id, $user);

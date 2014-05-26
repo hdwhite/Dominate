@@ -24,9 +24,12 @@
 						$press = "All";
 						break;
 				}
+				//We need to turn the turn number into a year and a seaon
+				//The Turn class will allow us to do that without much trouble
 				$turn = (new Turn($curgame['startyear'], $curgame['numturns']))->getnext();
 				$year = $turn->getyear();
 				$season = $turn->display("S P");
+
 				$deadline = date("n/j G:i", strtotime($curgame['next_deadline']));
 				$temp = max(0, strtotime($curgame['next_deadline']) - time());
 				$ttd = sprintf("%02d:%02d", floor($temp/3600), floor($temp/60)%60);

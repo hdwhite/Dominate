@@ -1,4 +1,6 @@
 <?php
+	//The page that you are currently in gets a border around it
+	//This page is called only in the game pages
 	function geturl($page, $model)
 	{
 		$game = $model->game;
