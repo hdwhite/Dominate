@@ -13,6 +13,9 @@ class Controller
 	public function params($params)
 	{
 		$error = $this->model->setparams($params);
+		//Error 0: Ok
+		//Error 1: Invalid game
+		//Error 2: Not enough permissions
 		if($error === 1)
 		{
 			header("Location: /dominate/");

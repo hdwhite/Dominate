@@ -9,7 +9,7 @@ abstract class Model
 	//All models have to be initialised
 	abstract protected function __construct();
 
-	//Initialises the MySQL connection
+	//Initialises the MySQL connection and stores the table names as variables
 	public function init()
 	{
 		session_start();
@@ -26,21 +26,30 @@ abstract class Model
 		$this->mysqli = $mysqli;
 	}
 	
+	//Loads game information
+	//Outputs true only on success
 	protected function loadgame()
 	{
+		//All games are numbered
 		if(!is_numeric($this->game))
 			return false;
+
+		//The game has to exist in the database
 		if(!($gameinfo = $this->mysqli->query(
 			"SELECT * FROM $this->gamedb WHERE id=$this->game")
 			->fetch_assoc()))
 			return false;
 		$this->gameinfo = $gameinfo;
+
+		//Creates the current turn as a Turn object
 		$this->curturn = new Turn($gameinfo['startyear'], $gameinfo['numturns']);
 		return true;
 	}
 
+	//Loads player information
 	protected function loadplayer($game)
 	{
+		//People not logged in are automatically guests
 		if(!isset($_SESSION['loggedin']))
 		{
 			$this->username = "Guest";
@@ -54,6 +63,7 @@ abstract class Model
 				"WHERE game=$game AND player=" . $_SESSION['id'])
 				->fetch_assoc())
 			{
+				//Don't tell them their power name if the game is awaiting players
 				if($this->gameinfo['status'] == 0)
 					$this->powername = "TBD";
 				else
@@ -70,8 +80,11 @@ abstract class Model
 	//Used so the Controller can know what Model we're using
 	abstract protected function gettype();
 
+	//Determines if the page associated with the Model is static or will redirect
 	abstract protected function redirect();
 
+	//The default set parameters function
+	//Other Models might override it
 	public function setparams($params)
 	{
 		$this->game = $params['game'];

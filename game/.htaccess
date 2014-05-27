@@ -1,1 +1,2 @@
+#Treats requests to dominate/game/Foo as dominate/game/index.php/Foo instead
 RewriteRule ^(?:(?!index.php).)*$ index.php$1 [L]

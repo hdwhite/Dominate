@@ -1,6 +1,7 @@
 <?php
 require_once("model/RedirectModel.php");
 
+//Starts the game
 class GameStartModel extends RedirectModel
 {
 	public function __construct()
@@ -15,12 +16,20 @@ class GameStartModel extends RedirectModel
 	{
 		if($this->powername != "GM")
 			return array($this->game);
+
+		//Updates the game's status
 		$this->mysqli->query("UPDATE $this->gamedb SET status=2 WHERE id=$this->game");
+
+		//Sets the first deadline
 		$deadtime = $this->mysqli->query("SELECT TIME_TO_SEC('" .
 			$this->gameinfo['move_deadlines'] . "')")->fetch_row()[0];
 		$nextdead = date("Y-m-d H:i:s", time() + $deadtime);
 		$this->mysqli->query("UPDATE $this->gamedb " .
 			"SET next_deadline='$nextdead' WHERE id=$this->game");
+
+		//Does the first round of SC ownership updating
+		//For more comments, check out Adjudicate.php
+		//This will probably be redone once variant support is added
 		$year = $this->curturn->getyear();
 		$powerids = array("Unowned" => 0);
 		foreach($ownerquery = $this->mysqli->query("SELECT id, name " .

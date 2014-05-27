@@ -1,6 +1,7 @@
 <?php
 require_once("model/PageModel.php");
 
+//The model for the GM page
 class GMModel extends PageModel
 {
 	public function __construct()
@@ -23,6 +24,7 @@ class GMModel extends PageModel
 	}
 	public function getdata()
 	{
+		//Gets names, ids, and orders for each player
 		$powtable = array();
 		foreach($this->mysqli->query("SELECT name, player, user, orders " .
 			"FROM $this->powerdb, $this->userdb " .

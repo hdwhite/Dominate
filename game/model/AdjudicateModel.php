@@ -1,6 +1,7 @@
 <?php
 require_once("model/RedirectModel.php");
 
+//Used to adjudicate a turn
 class AdjudicateModel extends RedirectModel
 {
 	public function __construct()
@@ -13,8 +14,12 @@ class AdjudicateModel extends RedirectModel
 	}
 	public function getquery()
 	{
+		//Only GMs can adjudicate
 		if($this->powername != "GM")
 			return array($this->game);
+
+		//Makes sure files are of the right type and that all necessary files
+		//are there
 		if($_FILES['image1']['error'] == 4)
 			return array($this->game, "gm");
 		if($_FILES['image1']['error'] > 0)
@@ -27,14 +32,19 @@ class AdjudicateModel extends RedirectModel
 			return array($this->game, "gm");
 		if($_FILES['text']['error'] > 0 && $_FILES['image2']['error'] != 4)
 			return array($this->game, "gm");
+
+		//Paths for the image and text files
 		$imgpath = $_SERVER['DOCUMENT_ROOT'] . "/diplomacy/" .
 			str_replace(" ", "_", $this->gameinfo['name']) .
 			"/images/" . $this->curturn->getyear();
 		$textpath = $_SERVER['DOCUMENT_ROOT'] . "/diplomacy/" .
 			str_replace(" ", "_", $this->gameinfo['name']) .
 			"/text/" . $this->curturn->getyear();
+
+		//Checks for the season
 		switch($this->curturn->display("sp"))
 		{
+			//The last season was Fall Retreat, so upload Winter Adjustment
 			case "FR":
 				mkdir("../diplomacy/" . str_replace(" ", "_", $this->gameinfo['name']) .
 					"/images/" . ($this->curturn->getyear() + 1));
@@ -68,6 +78,7 @@ class AdjudicateModel extends RedirectModel
 				}
 				if($_FILES['text']['error'] == 0)
 				{
+					//If there's already a text file, simply append it
 					if(file_exists("$textpath/S.html"))
 					{
 						$textfile = fopen("$textpath/S.html", "a");
@@ -85,6 +96,7 @@ class AdjudicateModel extends RedirectModel
 				if($_FILES['text']['error'] == 0)
 					move_uploaded_file($_FILES['text']['tmp_name'], "$textpath/F.html");
 				break;
+			//In addition to moving files, we need to update SC ownership
 			case "FM":
 				if($_FILES['image2']['error'] == 0)
 					$image = imagecreatefrompng($_FILES['image2']['tmp_name']);
@@ -111,16 +123,19 @@ class AdjudicateModel extends RedirectModel
 						fclose($textfile);
 					}
 					else
-					{
 						move_uploaded_file($_FILES['text']['tmp_name'], "$textpath/F.html");
-					}
 				}
+
 				$year = $this->curturn->getyear() + 1;
 				$powerids = array("Unowned" => 0);
+				//Get power IDs for each of the powers
 				foreach($ownerquery = $this->mysqli->query("SELECT id, name " .
 					"FROM $this->powerdb WHERE game=$this->game")
 					as $curpower)
 					$powerids[$curpower['name']] = $curpower['id'];
+
+				//Coordinates of empty spots on each SC that we can use to
+				//extract owner color
 				$xval = array(237, 232, 236, 224, 243, 287, 104, 159, 267, 307, 352,
 					358, 377, 355, 405, 357, 649, 479, 665, 670, 596, 634, 660, 539,
 					556, 488, 483, 498, 427, 422, 353, 367, 413, 308);
@@ -131,6 +146,9 @@ class AdjudicateModel extends RedirectModel
 					"Bel", "Hol", "Mun", "Kie", "Ber", "Den", "Swe", "Nor", "Stp",
 					"War", "Mos", "Sev", "Con", "Ank", "Smy", "Bul", "Rum", "Gre",
 					"Ser", "Bud", "Vie", "Tri", "Ven", "Rom", "Nap", "Tun");
+
+				//Depending on the version of jDip, some countries might have
+				//different colors
 				$powers = Array(hexdec("CD5C5C") => "Austria",
 								hexdec("7B68EE") => "England",
 								hexdec("87CEEB") => "France",
@@ -145,9 +163,13 @@ class AdjudicateModel extends RedirectModel
 				$numscs = Array("Austria" => 0, "England" => 0, "France" => 0,
 					"Germany" => 0, "Italy" => 0, "Russia" => 0, "Turkey" => 0, "Unowned" => 0);
 				$powernames = array_keys($numscs);
+
 				$scstmt = $this->mysqli->prepare("INSERT INTO $this->scdb" .
 					"(name, game, year, owner) VALUES(?, ?, ?, ?)");
 				$scstmt->bind_param("siii", $cursc, $this->game, $year, $ownernum);
+
+				//For each SC, find its owner, add to the running tally of SCs,
+				//and insert the SC data into the table
 				for($i = 0; $i < count($scs); $i++)
 				{
 					$cursc = $scs[$i];
@@ -156,10 +178,13 @@ class AdjudicateModel extends RedirectModel
 					$ownernum = $powerids[$owner];
 					$scstmt->execute();
 				}
+				$scstmt->close();
+
 				$yearstmt = $this->mysqli->prepare("INSERT INTO $this->yeardb(" .
 					"game, power, player, year, sc) VALUES(?, ?, ?, ?, ?)");
 				$yearstmt->bind_param("iisii", $this->game, $powerid,
 					$powplayer, $this->gameinfo['startyear'], $sccount);
+				//Insert the total SC count for each power into the appropriate table
 				foreach($this->mysqli->query("SELECT name, player, user, power.id AS pid " .
 					"FROM $this->powerdb, $this->userdb " .
 					"WHERE $this->powerdb.player=$this->userdb.id AND game=$this->game " .
@@ -172,8 +197,13 @@ class AdjudicateModel extends RedirectModel
 				}
 				$yearstmt->close();
 		}
+
+		//Increment the number of turns elapsed
 		$this->mysqli->query("UPDATE $this->gamedb SET numturns = numturns + 1 " .
 			"WHERE id=" . $this->gameinfo['id']);
+
+		//Depending on whether the next turn is a movement phase or not, get
+		//the appropriate time to next deadline
 		if($this->curturn->getnext()->getnext()->display('p') == "M")
 			$deadtime = $this->mysqli->query("SELECT TIME_TO_SEC('" .
 				$this->gameinfo['move_deadlines'] . "')")->fetch_row()[0];
@@ -182,10 +212,14 @@ class AdjudicateModel extends RedirectModel
 				$this->gameinfo['retreat_deadlines'] . "')")->fetch_row()[0];
 		$nextdead = date("Y-m-d H:i:s",
 			strtotime($this->gameinfo['next_deadline']) + $deadtime);
+
+		//Update the deadline and clear the orders
 		$this->mysqli->query("UPDATE $this->gamedb " .
 			"SET next_deadline='$nextdead' WHERE id=$this->game");
 		$this->mysqli->query("UPDATE $this->powerdb SET orders=NULL " .
 			"WHERE game=$this->game");
+
+		//Send emails to all players that have email notifications turned on
 		$userto = array();
 		$mailto = array();
 		foreach($this->mysqli->query("SELECT user, email " .

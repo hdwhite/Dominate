@@ -1,6 +1,8 @@
 <?php
 require_once("model/PageModel.php");
 
+//Gets the game info
+//It's a very simple class
 class InfoModel extends PageModel
 {
 	public function __construct()
