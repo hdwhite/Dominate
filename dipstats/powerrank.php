@@ -4,6 +4,8 @@ $rankTable = array_fill_keys($countries, array_fill(0, 7, 0));
 $pointsTable = array_fill_keys($countries, 0);
 $numFinished = $mysqli->query("SELECT COUNT(*) FROM $_gamedb " .
 	"WHERE for_stats='y' AND status=5 AND standard='y'")->fetch_row()[0];
+
+//Gets power data for all the completed standard games that are for stats
 foreach($mysqli->query("SELECT $_powerdb.name AS power, rank, points " .
 	"FROM $_gamedb, $_powerdb WHERE $_powerdb.game=$_gamedb.id AND " .
 	"for_stats='y' AND status=5 AND standard='y'") as $curpower)

@@ -3,13 +3,20 @@ $longest = 0;
 $totalgames = array_fill(0, 50, 0);
 $gamesthrough = array_fill(0, 50, 0);
 $countries = array("Austria", "England", "France", "Germany", "Italy", "Russia", "Turkey");
+//Contains a matrix of how many SCs a country has controlled in a given year
+//for all games combined
 $gametable = array_fill_keys($countries, array_fill(0, 50, 0));
+
+//Gets SC data for all standard games that are listed as for stats
 foreach($mysqli->query("SELECT status, $_powerdb.name AS power, year, sc " .
 	"FROM $_gamedb, $_powerdb, $_yeardb WHERE $_powerdb.game=$_gamedb.id AND " .
 	"$_yeardb.power=$_powerdb.id AND for_stats='y' AND standard='y'") as $curyear)
 {
 	$year = $curyear['year'] - 1901;
-	if($curyear['power'] == "Austria")
+	
+	//Finds out how long a certain game is. The conditional statement is so we
+	//count each game only once
+	if($curyear['power'] == $countries[0])
 	{
 		$longest = max($longest, $year + 1);
 		$totalgames[$year]++;
