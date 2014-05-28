@@ -14,7 +14,7 @@ class PressModel extends PageModel
 	}
 
 	//Basic formatting
-	//Used so people can make text fancy safely
+	//Used so people can make fancy text safely
 	protected function bbformat($text)
 	{
 		$text = preg_replace("/\[b\](.*)\[\/b\]/Ui",
