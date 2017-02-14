@@ -5,7 +5,7 @@
 	{
 		$game = $model->game;
 		$clink = "class='currentLink'";
-		$url = "href=\"http://hdwhite.org/dominate/game/$game/$page\"";
+		$url = "href=\"/dominate/game/$game/$page\"";
 		if($page == $model->gettype())
 			return "$clink $url";
 		return $url;
@@ -25,9 +25,9 @@
 	<a <?=geturl("stats", $this->model) ?>>Stats</a>
 	<a <?=geturl("info", $this->model) ?>>Info</a>
 	<?php if(isset($_SESSION['loggedin'])) { ?>
-		<a href="http://hdwhite.org/logout.php">Log Out</a>
+		<a href="/logout.php">Log Out</a>
 	<?php } else { ?>
-		<a href="http://hdwhite.org/login.php">Log In/Register</a>
+		<a href="/login.php">Log In/Register</a>
 	<?php } ?>
-	<a href="http://hdwhite.org/">hdwhite.org</a>
+	<a href="/">hdwhite.org</a>
 </div>

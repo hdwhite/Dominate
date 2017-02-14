@@ -29,8 +29,11 @@ if(isset($_POST['action']))
 	$dupstmt->close();
 	//"template" and "dipstats" are reserved names, and game names can have a
 	//limited range of accepted characters
-	if($samename == 0 && preg_match("/^[A-Za-z0-9_- ]+$/", $name) &&
-		$lowername != "template" && $lowername != "dipstats")
+	if(!preg_match("/^[\w\d- ]+$/", $name))
+	{
+		$message = "Please only use alphanumeric characters, spaces, and underscores.";
+	}
+	else if($samename == 0 && $lowername != "template" && $lowername != "dipstats")
 	{
 		//Insert game info into the game table
 		$gamestmt = $mysqli->prepare("INSERT INTO $_gamedb(name, for_stats, press, " .

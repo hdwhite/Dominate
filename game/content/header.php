@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 		<STYLE TYPE="text/css">
-			@import url("http://hdwhite.org/dominate/dominate<?=$css ?>.css");
+			@import url("/dominate/dominate<?=$css ?>.css");
 			.A { color:#CD5C5C; }
 			.E { color:#0000FF; }
 			.F { color:#00BFFF; }

@@ -49,6 +49,7 @@ $userinfo = $mysqli->query("SELECT press, adjudicate FROM $_userdb " .
 					<form action="account.php" method="post">
 					<input type="checkbox" name="press"<?php if($userinfo['press'] == 'y') echo(" checked"); ?>> Receive an e-mail whenever someone sends you a message.<br>
 					<input type="checkbox" name="adjudicate"<?php if($userinfo['adjudicate'] == 'y') echo(" checked"); ?>> Receive an e-mail whenever a game you're in is adjudicated.<br>
+<!--					<input type="checkbox" disabled="disabled" checked> Receive an e-mail if you are about to miss a deadline.<br> -->
 					<input type="submit" name="action" value="Update settings">
 					</form>
 			</div>
