@@ -68,6 +68,7 @@ if(isset($_POST['action']))
 ?>
 <html>
 	<head>
+		<?php require_once($_SERVER['DOCUMENT_ROOT'] . "/analytics.php"); ?>
 		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 		<STYLE TYPE="text/css">
 			@import url("../harry.css");

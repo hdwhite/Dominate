@@ -28,6 +28,7 @@ $userinfo = $mysqli->query("SELECT press, adjudicate FROM $_userdb " .
    "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
+		<?php require_once($_SERVER['DOCUMENT_ROOT'] . "/analytics.php"); ?>
 		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 		<STYLE TYPE="text/css">
 			@import url("../harry.css");

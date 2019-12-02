@@ -62,6 +62,7 @@ switch($_GET['message'])
    "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 	<head>
+		<?php require_once($_SERVER['DOCUMENT_ROOT'] . "/analytics.php"); ?>
 		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 		<STYLE TYPE="text/css">
 			@import url("../harry.css");
@@ -117,7 +118,6 @@ switch($_GET['message'])
 				<div class="entry">
 					<h4>Box of Links</h4>
 					<p><a href="account.php">Email settings</a>
-					<br><a href="creategame.php">Create new game</a>
 					<br><a href="stats.php">Global Game Stats</a>
 					<br>View blank map <a href="StartingNames.gif">with full region names</a> or <a href="StartingAbbr.png">with region abbreviations</a>
 					<br><a href="syntax.php">A guide for writing orders</a>
