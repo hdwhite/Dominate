@@ -80,6 +80,10 @@ switch($_GET['message'])
 				if(isset($message))
 					echo("<div class='entry'><font color='#990000'><b>$message</b></font></div>");
 				?>
+				<div class="entry">
+					<h4>Notice</h4>
+					<p>This was a passion project of mine that I had started in high school, and that I had finished after graduating college as a way to teach myself frameworks and decent coding practices. Unfortunately the heyday of Diplomacy among my friend groups has long since passed, and as such this tool, as neat as I thought it was, doesn't really have much of a purpose anymore. I'll keep it up for a while as a nostalgia thing, but I suspect at some point its location on the navigation bar might reach its end.</p>
+				</div>
 		    	<div class="entry">
 					<h4>What this is</h4>
 					<p>Welcome to the Diplomacy Online Management Interface Normally Accessible Through Electronics (DOMINATE)! Yes, I know that name doesn't really make sense. This site allows for a more central management of Diplomacy games, allowing one to easily create and manage a game of Diplomacy, and for players to join, negotiate, and send orders all in one convenient place. To start playing, all you need to do is register an account, and you'll be ready to jump in!</p><br>
